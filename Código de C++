@@ -1,0 +1,81 @@
+CODIGO DE C++
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    // Declaración de constantes
+    const int MAX_VERTICES = 100; // Máximo de vértices permitidos
+    const int MAX_FACES = 50;     // Máximo de caras permitidas
+    const int MAX_FACE_SIZE = 10; // Máximo de vértices por cara
+
+    // Declaración de arreglos
+    float vertices[MAX_VERTICES][3]; // Arreglo de vértices
+    int faces[MAX_FACES][MAX_FACE_SIZE]; // Arreglo de caras
+    int face_sizes[MAX_FACES]; // Cantidad de vértices en cada cara
+
+    // Declaración de contadores
+    int num_vertices = 0, num_faces = 0;
+
+    // Registrar vértices
+    cout << "Ingrese el número de vértices: ";
+    cin >> num_vertices;
+
+    if (num_vertices > MAX_VERTICES || num_vertices <= 0) {
+        cout << "Número de vértices fuera de rango.\n";
+        return 1;
+    }
+
+    for (int i = 0; i < num_vertices; i++) {
+        cout << "Ingrese las coordenadas x, y, z del vértice " << (i + 1) << ": ";
+        cin >> vertices[i][0] >> vertices[i][1] >> vertices[i][2];
+    }
+
+    // Registrar caras
+    cout << "Ingrese el número de caras: ";
+    cin >> num_faces;
+
+    if (num_faces > MAX_FACES || num_faces <= 0) {
+        cout << "Número de caras fuera de rango.\n";
+        return 1;
+    }
+
+    for (int i = 0; i < num_faces; i++) {
+        cout << "Ingrese la cantidad de vértices de la cara " << (i + 1) << " (máximo " << MAX_FACE_SIZE << "): ";
+        cin >> face_sizes[i];
+
+        if (face_sizes[i] > MAX_FACE_SIZE || face_sizes[i] <= 0) {
+            cout << "Cantidad de vértices no válida.\n";
+            return 1;
+        }
+
+        cout << "Ingrese los índices de los vértices de la cara (ejemplo: 1 2 3): ";
+        for (int j = 0; j < face_sizes[i]; j++) {
+            cin >> faces[i][j];
+
+            if (faces[i][j] < 1 || faces[i][j] > num_vertices) {
+                cout << "Error: Índice fuera de rango. Debe estar entre 1 y " << num_vertices << ".\n";
+                return 1;
+            }
+        }
+    }
+
+    // Imprimir la figura en formato OBJ o geometrica 3D
+    cout << "\nSalida en formato OBJ:\n";
+
+    // Imprimir vértices
+    for (int i = 0; i < num_vertices; i++) {
+        cout << "v " << vertices[i][0] << " " << vertices[i][1] << " " << vertices[i][2] << endl;
+    }
+
+    // Imprimir caras
+    for (int i = 0; i < num_faces; i++) {
+        cout << "f";
+        for (int j = 0; j < face_sizes[i]; j++) {
+            cout << " " << faces[i][j];
+        }
+        cout << endl;
+    }
+
+    return 0;
+}
